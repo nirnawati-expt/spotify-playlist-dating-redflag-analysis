@@ -1,13 +1,15 @@
+import os
 import time
 import traceback
 
 from selenium import webdriver
 from selenium.common import ElementNotInteractableException
 from selenium.webdriver import Keys, ActionChains
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 
 from .web_api_netlog_processor import process_network_logs
-from ..constant.constant import Spotify
+from ..config.base_configuration import SPOTIFY_PLAYLIST_UI_END_SCROLL_ELEMENT
 from ..helper import str_utility
 from ..helper.validator import validate_url
 
@@ -15,19 +17,25 @@ from ..helper.validator import validate_url
 def get_chromedriver():
     # Create the webdriver object and pass the arguments
     options = webdriver.ChromeOptions()
-    options.add_argument('--headless')  # disable this argument to show the Chrome browser UI
+    options.add_argument('--headless=new')  # disable this argument to show the Chrome browser UI
     options.add_argument("--ignore-certificate-errors")
     options.set_capability('goog:loggingPrefs', {'performance': 'ALL'})
+    options.add_argument('--disable-gpu')  # Mematikan akselerasi grafis yang sering memicu log devtools
+    options.add_argument('--log-level=3')  # 3 = INFO, WARNING, dan ERROR disembunyikan
+    options.add_argument('--silent')
+    options.add_argument(
+        '--disable-features=OptimizationGuideModelDownloading,OptimizationHints')  # Minta Chrome untuk tidak memuat model ML internal jika memungkinkan
+    options.add_argument(f"--log-path={os.devnull}")  # force chrome to sent the log to os.devnull
+    options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
     # Startup the chrome webdriver
     # pass the chrome options as parameters.
-    return webdriver.Chrome(options=options)
+    return webdriver.Chrome(service=Service(log_output=None), options=options)
 
 
 def scroll_down_element_until_end(driver: webdriver.Chrome, by: str, element_name: str):
-    print("scrolling down element")
     try:
-        print("begin scroll down")
+        print("Scrolling down the playlist page")
         (ActionChains(driver)
          .click(driver.find_element(by=by, value=element_name))
          .perform())
@@ -38,13 +46,12 @@ def scroll_down_element_until_end(driver: webdriver.Chrome, by: str, element_nam
         (ActionChains(driver)
          .send_keys(Keys.END)
          .perform())
-        time.sleep(1)
+        time.sleep(15)  # sleep to ensure the page loaded (we never knew when the page is loaded though)
     except ElementNotInteractableException:
         # pass through exception can't send keys
         pass
     finally:
-        print("finish scroll down")
-        time.sleep(30)
+        print("Finished scrolling down the playlist page")
 
 
 def scrape_spotify_playlist_page(playlist_url: str):
@@ -61,21 +68,23 @@ def scrape_spotify_playlist_page(playlist_url: str):
         driver = get_chromedriver()
 
         # Load the page
-        print("begin loading page")
+        print("Loading the web page")
         driver.get(playlist_url)
-        time.sleep(10)  # to ensure the page is fully loaded, esp when the internet connection is slow
-        print("finish loading page")
+        time.sleep(15)  # to ensure the page is fully loaded, esp when the internet connection is slow
+        print("Finished loading the web page")
 
         # Scroll until recommended track section show to ensure all URL is loaded
         scroll_down_element_until_end(driver,
                                       By.CLASS_NAME,
-                                      Spotify.ELEMENT_SELECTED)
+                                      SPOTIFY_PLAYLIST_UI_END_SCROLL_ELEMENT)
+        print("Extracting playlists")
         playlist_id: str = str_utility.extract_playlist_id(playlist_url)
         # Filter data from API, this approach chosen because there are no identifier in UI
+        print("Extracting songs")
         song_collections = process_network_logs(driver, playlist_id)
         driver.quit()
         return song_collections
     except Exception:
-        traceback.print_exc()
+        raise Exception
     finally:
-        print("Finished scraping web page")
+        print("Finished getting all the songs in the playlist")

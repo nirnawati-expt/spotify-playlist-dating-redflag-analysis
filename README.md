@@ -4,14 +4,19 @@
 
 ## **Summary: Integrating Data Scraping with Gen AI**
 
-This is an end-to-end Python project that analyzes a user's Spotify playlist to generate an entertaining "dating red flag" personality analysis.
+This is an end-to-end Python project that analyzes a user's Spotify playlist to generate an entertaining "dating red
+flag" personality analysis.
 
-This project represents the successful **MVP (Minimum Viable Product)** build, which was executed in seven days of focused part-time work to quickly demonstrate core technical proficiency in Python.
+This project represents the successful **MVP (Minimum Viable Product)** build, which was executed in seven days of
+focused part-time work to quickly demonstrate core technical proficiency in Python.
 
 The MVP's main objective was to validate a solid, production-ready data pipeline by:
-- **Data Acquisition**: Grabbing songs from a public Spotify playlist using customized data scraping techniques (network traffic interception from Web UI).
+
+- **Data Acquisition**: Grabbing songs from a public Spotify playlist using customized data scraping techniques (network
+  traffic interception from Web UI).
 - **GenAI Integration**: Leveraging the 3rd party API SDK to generate structured, nuanced text.
-- **Prompt Engineering**: Crafting the personality analysis by designing an optimal prompt and system instructions to achieve the desired content goal.
+- **Prompt Engineering**: Crafting the personality analysis by designing an optimal prompt and system instructions to
+  achieve the desired content goal.
 - **Pipeline Engineering**: Implementing a complete data flow from unformatted scrape data to final, formatted output.
 
 -----
@@ -20,20 +25,25 @@ The MVP's main objective was to validate a solid, production-ready data pipeline
 
 - **Generative AI**: This demonstrates direct SDK integration and my skills in prompt engineering, using System
   Instructions, parameter configurations and specific prompt to ensure the output is structured, relevant and reliable.
-- **Web Scraping (Selenium)**: This was a challenge! It showcases dynamic data acquisition by automating browser interaction and actively intercepting network calls, not just scraping static pages, whic is more technically challenging approach.
+- **Web Scraping (Selenium)**: This was a challenge! It showcases dynamic data acquisition by automating browser
+  interaction and actively intercepting network calls, not just scraping static pages, whic is more technically
+  challenging approach.
 - **Python 3**: The entire data pipeline and application logic are built using modern Python 3.
 
 -----
 
 ## Rationale: Why didn't I just use the Spotify API?
 
-That's a great question! I know the easiest route would've been to grab the data using the official Spotify API, but I  intentionally decided against it.
+That's a great question! I know the easiest route would've been to grab the data using the official Spotify API, but I
+intentionally decided against it.
 
-This project is a first-time exploration into data acquisition. I wanted to challenge myself (and showcase my skills) by using the Python Selenium library to perform dynamic scraping.
+This project is a first-time exploration into data acquisition. I wanted to challenge myself (and showcase my skills) by
+using the Python Selenium library to perform dynamic scraping.
 
 That means I set up the code to actively listen to and intercept network calls as the playlist web page loads.
 
-It was a deliberate technical choice to demonstrate real-world skills in dynamic scraping and network traffic analysis in Python, proving I can handle more than just standard API consumption.
+It was a deliberate technical choice to demonstrate real-world skills in dynamic scraping and network traffic analysis
+in Python, proving I can handle more than just standard API consumption.
 
 -----
 
@@ -75,32 +85,42 @@ You'll need a few things to get started:
 
 2. Ensure you have gathered all of the requirements on section `Requirements`
 
-3. Run the application as a Python module using the following command:
+3. **Run the Application as a Python Module**
 
-   ```bash
-   python -m noviirnawati.main [your_public_spotify_link]
-   ```
+If you have set the API key as an environment variable:
 
-4. If you're a PyCharm user, you can also use the pre-configured run configuration file located at
-   `.run/run-app.run.xml`. You may need to edit the configuration to match your project's local path. If you need to
-   change the playlist the Python script analyzes, you'll need to update the string inside the `value` attribute of the
-   `<option name="PARAMETERS"...>` tag, simply replace the current URL (the one that starts
-   with https://open.spotify.com/playlist/...) with the new public Spotify playlist link you want the scraper to use for
-   the analysis.
+```
+   python -m vibecheck.main <your_public_spotify_link>
+```
 
------
+If you want to pass your API key directly as an argument:
+
+```
+  python -m vibecheck.main <your_public_spotify_link> <your_google_cloud_ai_studio_api_key>
+```
+
+4. **Run Locally as a Pre-packaged Tool**
+   Install the package in editable mode:
+
+```
+   pip install -e .
+  ```
+
+Once installed, run the tool using the following command:
+
+```
+  vibe-check <your_public_spotify_link> <your_google_cloud_ai_studio_api_key>
+````
 
 ## **Project Structure**
 
 * `.run/`: PyCharm run configuration files.
 * `docs/`: Additional documentation. You can find samples of prompt, configurations, system instruction, and output
   files of this project.
-* `noviirnawati/`: The main Python package.
+* `vibecheck/`: The main Python package.
     * `constant/`: Modules holding constant classes and immutable variables.
-    * `env/`: Where credentials are stored. This directory is not uploaded to the repository.
     * `helper/`: Modules that support the project's core logic.
     * `model/`: Modules for data definition classes.
-    * `output/`: Contains generated output files from the application,
     * `sdk/`: Modules for implementing the 3rd party SDK and its configurations.
     * `web_scraper/`: Modules dedicated to dynamic data scraping.
 * `tests/`: A package for unit tests.
@@ -113,11 +133,11 @@ You'll need a few things to get started:
 This project relies on several environment variables for configuration. Here's a quick look at what they do:
 
 ```dotenv
-GOOGLE_CLOUD_API_KEY=string. mandatory. API key, get yours from https://aistudio.google.com/app/api-keys
-GOOGLE_GENAI_MODEL_TYPE=string. gemini model id. if left empty, the default value is defined at noviirnawati/config/sdk_configuration.py 
+GOOGLE_CLOUD_API_KEY=string. optional, if using 1 args on cli this is mandatory. API key, get yours from https://aistudio.google.com/app/api-keys
+GOOGLE_GENAI_MODEL_TYPE=string. optional. gemini model id. if left empty, the default value is defined at noviirnawati/config/sdk_configuration.py 
 
-GOOGLE_GENAI_SYSTEM_INSTRUCTION=string. mandatory. system instruction of ai model.
-GOOGLE_GENAI_BASE_PROMPT=string. mandatory. prompt for the ai model to generate content.
+GOOGLE_GENAI_SYSTEM_INSTRUCTION=string. optional. system instruction of ai model.
+GOOGLE_GENAI_BASE_PROMPT=string. optional. prompt for the ai model to generate content.
 GOOGLE_GENAI_TEMPERATURE=float. optional. learn from https://cloud.google.com/vertex-ai/generative-ai/docs/learn/prompts/adjust-parameter-values . if left empty, the default value is defined at noviirnawati/config/sdk_configuration.py 
 GOOGLE_GENAI_TOP_P=float. optional. learn from https://cloud.google.com/vertex-ai/generative-ai/docs/learn/prompts/adjust-parameter-values . if left empty, the default value is defined at noviirnawati/config/sdk_configuration.py 
 GOOGLE_GENAI_TOP_K=int. optional. learn from https://cloud.google.com/vertex-ai/generative-ai/docs/learn/prompts/adjust-parameter-values . if left empty, the default value is defined at noviirnawati/config/sdk_configuration.py 
@@ -125,6 +145,7 @@ GOOGLE_GENAI_TOP_K=int. optional. learn from https://cloud.google.com/vertex-ai/
 AI_ANALYSIS_SAVED_AS_MARKDOWN=bool. optional. true to save markdown of generated content into a markdown file locally. if left empty, the default value is False, defined at noviirnawati/config/base_configuration.py 
 OUTPUT_FILENAME_API_DETAILS=string. optional. file name of which web data scraping result. file will be save as output_[file_name]-[spotify_playlist_id]-[yymmdd].json
 OUTPUT_FILENAME_SONGS_DETAILS=string. optional. file name of which cleaned data result. file will be save as output_[file_name]-[spotify_playlist_id]-[yymmdd].json
+SPOTIFY_PLAYLIST_UI_END_SCROLL_ELEMENT=string. optional. class of the element where the playlist end on the spotify web UI
 ```
 
 A sample populated with example data types:
@@ -142,30 +163,43 @@ GOOGLE_GENAI_TOP_K=30
 AI_ANALYSIS_SAVED_AS_MARKDOWN=True
 OUTPUT_FILENAME_API_DETAILS=api_details
 OUTPUT_FILENAME_SONGS_DETAILS=songs_details
+SPOTIFY_PLAYLIST_UI_END_SCROLL_ELEMENT=RD3ze5s5sQ4S4Tyb
 ```
 
 -----
 
 ## **Future Roadmap (Post-MVP)**
-The immediate roadmap focuses on expanding data context and analysis depth, building directly on the successful MVP foundation:
-* **Trying New AI Voices**: Looking into other GenAI providers (especially those with a great free tier!) to see how
-  their models analyze music and if we can get a different "vibe" for the analysis.
-* **Deeper Data Dive**: I'll be trying to scrape more detailed metrics like Genre, BPM, and Mood from the network
-  traffic. More data means the AI can give even spicier and more nuanced "red flag" assessments!
-* **Visualizing the Vibe**:Exploring suitable data visualization based on the collected playlist data.
-* A revised overall application flow:
+
+The immediate roadmap focuses on transitioning the tool into a robust command-line interface (CLI) application and
+expanding local data extraction capabilities using Selenium:
+
+* **CLI Application Transformation**: Refactoring the entire script into an interactive CLI tool. Users will be able to
+  pass playlist URLs and the AI model API key, and view the output directly in their terminal with clean text
+  formatting.
+* **Enhanced Local Data Cleaning & Processing**: enhancing the structured data cleaning and feature extraction locally
+  before passing the payload to the GenAI model to keep tokens efficient.
+* **Probably Trying New AI Voices**: Looking into other GenAI providers (especially those with a great free tier!) to
+  see how their models analyze music and if we can get a different "vibe" for the analysis.
+* **Deeper Data Scraping**: Expanding the Selenium scraping logic to capture more detailed metrics (such as Genre, BPM,
+  and Mood) from the web interface's network traffic and DOM elements. More scraped data means the AI can give even
+  spicier and more nuanced assessments!
+* **Visualizing the Vibe**: Exploring suitable data visualization for the output file based on the collected playlist
+  data.
+* ```
+  Spotify Playlist URL ⟶ Selenium Web Scraping ⟶ Local Data Cleaning & Feature Extraction ⟶ GenAI Model ⟶ Interactive CLI Output & Data Visualization
   ```
-  Spotify Playlist ⟶ Data Scraping ⟶ Data Cleaning ⟶ Feature Extraction ⟶ AI Model ⟶ Analysis Output ⟶ Data Visualization
-  ```
-* Feature extraction might focus on playlist-level insights, such as:
-    * Number of songs in a playlist
-    * Min (Oldest), Max (Latest), Most Common Release Year to get era preference.
-    * Min (Shortest), Max(Longest), Average Songs Duration to get duration preference.
-    * Artist distribution & diversity, Top 3 Artists to see if the user is loyal to their favorite artists or explores
-      many.
-    * Genre distribution & diversity, Top 3 Genres to see if the user has a comfort genre or explores many.
-    * BPM distribution & diversity, Top 3 BPM to see if the user prefers a faster or slower tempo.
-    * Mood distribution & diversity, Top 3 Moods to see how consistent their moods are.
-    * ...and more.
-    * If those data points are available to scrape from Spotify's Web UI, I'll definitely try to integrate them.
-      Otherwise, these ideas may become optional features should I decide to explore the Spotify API later on.
+* Feature extraction might focus heavily on playlist-level insights, such as:
+    * **Track Count**: Number of songs in a playlist.
+    * **Era Preference**: Min (Oldest), Max (Latest), and Most Common Release Year.
+    * **Duration Preference**: Min (Shortest), Max (Longest), and Average Song Duration.
+    * **Artist Diversity**: Artist distribution and Top 3 Artists to see if the user is loyal to their favorites or
+      explores
+      widely.
+    * **Genre Diversity**: Genre distribution and Top 3 Genres to see if the user has a comfort genre.
+    * **Tempo & Energy**: BPM distribution and Top 3 BPM to see if the user prefers a faster or slower tempo.
+    * **Mood Consistency**: Mood distribution and Top 3 Moods to see how consistent their musical moods are.
+
+> [!NOTE]
+> If these data points are available to scrape from Spotify's Web UI, I'll definitely try to integrate them.
+> Otherwise, these ideas may become optional features should I decide to explore the Spotify API later on (which most
+> likely I'll do in a separate repository).*

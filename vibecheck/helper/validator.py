@@ -20,3 +20,12 @@ def dct_is_empty_or_none(dct: dict) -> bool:
 
 def str_is_empty_or_none(string: str) -> bool:
     return string == Generic.EMPTY_STRING or string is None
+
+
+def validate_args(link: str, apikey: str) -> bool:
+    if (str_is_empty_or_none(apikey)):
+        raise ValueError('API key cannot be empty')
+    elif (str_is_empty_or_none(link)):
+        raise ValueError('Playlist link cannot be empty')
+    else:
+        return True

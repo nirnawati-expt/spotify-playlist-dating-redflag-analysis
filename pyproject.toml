@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vibe-check"
+version = "0.1.0"
+description = "Spotify Playlist vibe check integrated with Gen AI"
+dependencies = [
+    "validators>=0.35.0",
+    "selenium>=4.35.0",
+    "google-genai>=1.39.0",
+    "python-dotenv>=1.1.1",
+]
+
+[project.scripts]
+vibe-check = "vibecheck.main:main"

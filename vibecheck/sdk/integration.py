@@ -1,4 +1,5 @@
 import os.path
+import sys
 import traceback
 
 from google import genai
@@ -12,7 +13,7 @@ from ..config.sdk_configuration import (GOOGLE_GENAI_MODEL_TYPE,
                                         GOOGLE_GENAI_TEMPERATURE,
                                         GOOGLE_GENAI_TOP_K,
                                         GOOGLE_GENAI_TOP_P,
-                                        GOOGLE_GENAI_SAFETY_SETTINGS, GOOGLE_CLOUD_API_KEY)
+                                        GOOGLE_GENAI_SAFETY_SETTINGS)
 from ..constant.constant import Generic
 from ..helper import str_utility
 from ..helper.validator import str_is_empty_or_none
@@ -38,10 +39,9 @@ def construct_markdown_filename(url: str) -> str:
     return os.path.join("output_result-" + str_utility.extract_playlist_id(url))
 
 
-def ai_analysis_google(prompt_context: str) -> str:
-    client: Client = genai.Client(api_key=GOOGLE_CLOUD_API_KEY)
+def ai_analysis_google(prompt_context: str, apikey: str) -> str:
     print("Generate GenAI Client")
-
+    client: Client = genai.Client(api_key=apikey)
     print("Begin generating content")
     response: GenerateContentResponse = client.models.generate_content(
         model=GOOGLE_GENAI_MODEL_TYPE,
@@ -59,25 +59,23 @@ def ai_analysis_google(prompt_context: str) -> str:
     return response.text
 
 
-def ai_analysis(song_collections: list, url: str):
+def ai_analysis(song_collections: list, url: str, apikey: str):
     try:
+        print("Preparing Prompt")
         prompt_context = build_prompt(song_collections)
-        if str_is_empty_or_none(prompt_context): raise AssertionError("No prompt context")
+        if str_is_empty_or_none(prompt_context): raise ValueError(
+            "Failed to build the prompt because playlist data could not be retrieved.")
 
-        # TODO: try multiple SDK provider besides google, create a switch case, choose the provider based on the environment variable
-        response = ai_analysis_google(prompt_context)
-
+        # OPTIONAL: try multiple SDK provider besides google, create a switch case, choose the provider based on the environment variable
+        response = ai_analysis_google(prompt_context, apikey)
+        print(response)
         # save as markdown only if the environment variables say so
         if AI_ANALYSIS_SAVED_AS_MARKDOWN:
+            print("Writing to Markdown")
             write_output_to_markdown("result", str_utility.extract_playlist_id(url), response)
-
-        print("\n\n\nPrinting generated response\n\n\n")
-        print(response)
-        print("\n\n\nFinished printing generated response\n\n\n")
+            print("Finished the vibe check 🪄 check the generated files on your directory now")
         return response
 
-    except Exception:
-        traceback.print_exc()
-        response = "No Result, please try again with a different URL"
-        print(response)
-        return response
+    except Exception as e:
+        print("No Result, please try again later or try again with a different URL")
+        raise e

@@ -35,7 +35,6 @@ class HttpMethod:
 
 @dataclass(frozen=True)
 class Spotify:
-    ELEMENT_SELECTED: str = 'c55UACltdzzDDQVfoF18'
     KEY_OPERATION_NAME: str = 'operationName'
     KEY_PLAYLIST_V2: str = 'playlistV2'
     KEY_ITEM_V2: str = 'itemV2'
