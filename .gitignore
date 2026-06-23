@@ -223,6 +223,7 @@ __marimo__/
 
 # Generated files
 .idea/**/contentModel.xml
+.run
 
 # Sensitive or high-churn files
 .idea/**/dataSources/
