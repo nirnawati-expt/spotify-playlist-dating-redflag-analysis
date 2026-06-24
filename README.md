@@ -160,7 +160,8 @@ Using Environment Variables:
 │   ├── model/           # Data definition models and schemas
 │   ├── sdk/             # 3rd-party SDK integrations and configurations
 │   ├── web_scraper/     # Modules dedicated to dynamic web scraping
-│   └── main.py          #  The central entry point for the CLI tool, responsible for parsing terminal arguments and executing the core application logic.
+│   ├── .env             # Local environment variable 
+│   └── main.py          # The central entry point for the CLI tool, responsible for parsing terminal arguments and executing the core application logic.
 ├── tests/               # Unit testing suite (Planned for future release)
 ├── app.py               # Streamlit Web Application entry point
 ├── packages.txt         # Linux system-level dependencies for Cloud Deployment (e.g., Streamlit Cloud)
