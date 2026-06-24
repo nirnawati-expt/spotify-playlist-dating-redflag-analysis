@@ -59,7 +59,7 @@ Spotify Playlist ⟶ Data Scraping ⟶ Data Cleaning ⟶ AI Model ⟶ Analysis O
 2. **Selenium** takes over, automating the web browser to navigate to the URL.
 3. The application listens to the network traffic and extracts a list of songs and artists from the web UI elements.
 4. The extracted data, along with specific prompts and system instructions, is sent to the GenAI model.
-5. The AI model, accessed via the Vertex AI API SDK, generates the personality analysis based on the provided data and
+5. The AI model, accessed via the Gemini API SDK, generates the personality analysis based on the provided data and
    instructions.
 6. The final AI-generated response is saved as a Markdown file, with the filename automatically generated in the format
    `output_result-[spotify_playlist_id]-[yymmdd].md`.
@@ -75,7 +75,7 @@ Spotify Playlist ⟶ Data Scraping ⟶ Data Cleaning ⟶ AI Model ⟶ Analysis O
 You'll need a few things to get started:
 
 * **Python 3** installed on your device
-* **Google Vertex AI API Key and Authentication:** All required environment variables are listed in the
+* **Google Gemini API Key and Authentication:** All required environment variables are listed in the
   `Environment Variables` section.
 * **Python Modules:** All required modules are listed in the `requirements.txt` file.
 
