@@ -10,15 +10,15 @@ st.title("Check your spotify playlist vibe 🎧")
 # 1. Ambil input dari user Streamlit
 input_playlist_link = st.text_input("Insert playlilst Link:")
 
-input_apikey = st.text_input("Insert your Google AI Studio API key (let it empty if don't have it):")
-
 
 def write_to_streamlit_cb(message):
     st.write(message)
 
+
 def write_message(message):
     print(message)
     write_to_streamlit_cb(message)
+
 
 if st.button("✨ Vibe Check ✨"):
 
@@ -27,8 +27,9 @@ if st.button("✨ Vibe Check ✨"):
         with st.status("Checking your spotify playlist vibe 🪩", expanded=True) as status:
             try:
 
+                input_apikey = st.secrets["GOOGLE_CLOUD_API_KEY"];
                 data_file = vibe_check(input_playlist_link,
-                                       input_apikey if input_apikey != "" else st.secrets["GOOGLE_CLOUD_API_KEY"],
+                                       input_apikey,
                                        callback_print=write_to_streamlit_cb)
 
                 write_message("💾 Mixing the final results... almost done!")
