@@ -11,8 +11,8 @@ def write_output_to_json(filename: str, playlist_id: str, json_string: str) -> N
         file.write(json_string)
 
 
-def write_output_to_markdown(filename: str, playlist_id: str, string: str) -> None:
-    with (open(os.path.join("output_" + filename + "-" + playlist_id + "-" + date.today().strftime("%y%m%d") + ".md"),
+def write_output_locally(filename: str, playlist_id: str, string: str) -> None:
+    with (open(os.path.join("output_" + filename + "-" + playlist_id + "-" + date.today().strftime("%y%m%d") + ".txt"),
                FileWriter.METHOD_TYPE_WRITE,
                encoding=FileWriter.ENCODING_UTF_8) as file):
         file.write(string)

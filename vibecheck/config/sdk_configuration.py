@@ -3,6 +3,7 @@ import os
 from google.genai.types import SafetySetting, HarmCategory, HarmBlockThreshold
 
 # Gen AI Client
+GOOGLE_GENAI_APIKEY: str = os.getenv('GOOGLE_CLOUD_API_KEY', '');
 GOOGLE_GENAI_MODEL_TYPE: str = os.getenv('GOOGLE_GENAI_MODEL_TYPE', 'models/gemini-3-flash-preview')
 
 # Gen AI Generate Content Parameters

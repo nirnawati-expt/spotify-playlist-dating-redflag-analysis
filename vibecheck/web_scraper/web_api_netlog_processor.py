@@ -5,7 +5,7 @@ from selenium import webdriver
 from selenium.common import WebDriverException
 
 from ..config.base_configuration import (OUTPUT_FILENAME_SONGS_DETAILS, OUTPUT_FILENAME_API_DETAILS,
-                                         DATA_SCRAPING_SAVE_API_DETAILS, DATA_SCRAPING_SAVE_SONGS_DETAILS)
+                                         IS_SAVE_API_DETAILS, IS_SAVE_SONG_DETAILS)
 from ..constant.constant import (ChromeDevToolProtocol as CDP,
                                  Generic,
                                  HttpMethod,
@@ -75,7 +75,7 @@ def filter_playlist_items(filtered_network_logs: list[dict], playlist_id: str) -
                 artists = detail.get(Spotify.KEY_ARTISTS, {}).get(Spotify.KEY_ITEMS, [])
                 song_details.append(PlaylistItem(title, process_artists_names(artists)))
 
-            if DATA_SCRAPING_SAVE_SONGS_DETAILS:
+            if IS_SAVE_SONG_DETAILS:
                 write_output_to_json(OUTPUT_FILENAME_SONGS_DETAILS, playlist_id,
                                      json.dumps(song_details, default=lambda o: o.encode()))
         else:
@@ -126,7 +126,7 @@ def filter_network_logs(driver: webdriver.Chrome, playlist_id: str) -> list[dict
     datas = datas.rstrip(Generic.COMMA_STRING)
     datas += "]"
 
-    if DATA_SCRAPING_SAVE_API_DETAILS:
+    if IS_SAVE_API_DETAILS:
         write_output_to_json(OUTPUT_FILENAME_API_DETAILS, playlist_id, datas)
 
     return json.loads(datas)

@@ -1,6 +1,5 @@
 import os
 import time
-import traceback
 
 from selenium import webdriver
 from selenium.common import ElementNotInteractableException

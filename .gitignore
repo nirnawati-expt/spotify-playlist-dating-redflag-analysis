@@ -289,3 +289,6 @@ fabric.properties
 
 # output file
 output*.*
+
+.streamlit/
+.streamlit
