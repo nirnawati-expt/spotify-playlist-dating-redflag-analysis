@@ -1,6 +1,6 @@
 import os
 
-IS_ENVIRONMENT_CLOUD: bool = os.getenv('IS_ENVIRONMENT_CLOUD', 'False').lower() in ('true', '1', 't')
+IS_ENVIRONMENT_CLOUD: bool = os.getenv('IS_ENVIRONMENT_CLOUD','').lower() in ('true', '1', 't')
 
 # save scraped data as JSON
 OUTPUT_FILENAME_API_DETAILS: str = os.getenv('OUTPUT_FILENAME_API_DETAILS', '')

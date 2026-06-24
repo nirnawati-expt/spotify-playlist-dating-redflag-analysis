@@ -1,12 +1,12 @@
 # load .env file in /env directory
 import logging
 import os
-from datetime import date
-import streamlit as st
+
 from dotenv import load_dotenv, find_dotenv
 
 from vibecheck.config.base_configuration import IS_ENVIRONMENT_CLOUD
 from vibecheck.config.sdk_configuration import GOOGLE_GENAI_APIKEY
+from vibecheck.helper.validator import validate_url
 from vibecheck.helper.writer import write_output_locally
 from .helper import validator, str_utility
 
@@ -26,41 +26,54 @@ os.environ['WDM_LOG_LEVEL'] = '0'  # Untuk webdriver-manager (jika pakai)
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  #
 
 
-def main():
-    try:
-        playlist_link = sys.argv[1]
-        ai_model_apikey = None
+def main(playlist_link: str, ai_model_apikey: str, callback_print=None):
+    def write_message(teks):
+        if callback_print:  # from streamlit
+            callback_print(teks)
+        else:  # from local
+            print(teks)
 
-        if (len(sys.argv) > 2):
-            ai_model_apikey = sys.argv[2]
-        else:
-            ai_model_apikey = GOOGLE_GENAI_APIKEY;
+    try:
+        write_message("🎵 Fetching playlist data...")
 
         validator.validate_args(playlist_link, ai_model_apikey)
 
+        # Validate spotify URL
+        if not validate_url(playlist_link):
+            write_message("Invalid URL, can't proceed to continue process")
+            return ""
+
         songs_collection = scrape_spotify_playlist_page(playlist_link)
+
+        write_message("🎧 Analyzing the vibe..")
         ai_response = ai_analysis(songs_collection, playlist_link, ai_model_apikey)
 
-        filename = "output-" + str_utility.extract_playlist_id("") + "-" + date.today().strftime("%y%m%d") + ".md"
-
-        print("Writing to responses")
-
         if IS_ENVIRONMENT_CLOUD:
-            st.download_button(
-                label="📥 Download",
-                data=ai_response,
-                file_name=filename,
-                mime="text/txt"
-            )
-            print("Finished the vibe check 🪄 download the generated file to see the result")
+            return ai_response
         else:
+            write_message("💾 Mixing the final results... almost done!")
             write_output_locally("result", str_utility.extract_playlist_id(playlist_link), ai_response)
             print("Finished the vibe check 🪄 check the generated file on your local directory to see the result")
+            return ai_response
 
     except Exception as e:
+        write_message("Oops! The vibe got disconnected. Let's try again with a different playlist or check later.")
         print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)
 
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) < 3:
+        sys.exit(1)
+    else:
+        playlist_link = sys.argv[1]
+        ai_model_apikey = None
+
+        if (len(sys.argv) > 2):
+            ai_model_apikey = sys.argv[2]
+            print("apikey from args")
+        else:
+            ai_model_apikey = GOOGLE_GENAI_APIKEY;
+            print("apikey from env variable")
+
+    main(playlist_link, ai_model_apikey)

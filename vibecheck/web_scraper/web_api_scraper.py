@@ -10,7 +10,6 @@ from selenium.webdriver.common.by import By
 from .web_api_netlog_processor import process_network_logs
 from ..config.base_configuration import SPOTIFY_PLAYLIST_UI_END_SCROLL_ELEMENT
 from ..helper import str_utility
-from ..helper.validator import validate_url
 
 
 def get_chromedriver():
@@ -54,15 +53,6 @@ def scroll_down_element_until_end(driver: webdriver.Chrome, by: str, element_nam
 
 
 def scrape_spotify_playlist_page(playlist_url: str):
-    try:
-        # Create an empty list variable to put the scraping results
-        song_collections = []
-
-        # Validate spotify URL
-        if not validate_url(playlist_url):
-            print("Invalid URL, can't proceed to continue process")
-            return song_collections
-
         # Set up the Web Driver
         driver = get_chromedriver()
 
@@ -83,7 +73,3 @@ def scrape_spotify_playlist_page(playlist_url: str):
         song_collections = process_network_logs(driver, playlist_id)
         driver.quit()
         return song_collections
-    except Exception:
-        raise Exception
-    finally:
-        print("Finished getting all the songs in the playlist")
