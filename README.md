@@ -10,7 +10,7 @@ flag" personality analysis.
 This project represents the successful **MVP (Minimum Viable Product)** build, which was executed in seven days of
 focused part-time work to quickly demonstrate core technical proficiency in Python.
 
-The MVP's main objective was to validate a solid, production-ready data pipeline by:
+The MVP's main objective was to validate a solid, shippable data pipeline by:
 
 - **Data Acquisition**: Grabbing songs from a public Spotify playlist using customized data scraping techniques (network
   traffic interception from Web UI).

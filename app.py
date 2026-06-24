@@ -3,6 +3,7 @@ from datetime import date
 
 import streamlit as st
 
+from vibecheck.helper import str_utility
 from vibecheck.main import vibe_check
 
 st.title("Check your spotify playlist vibe 🎧")
@@ -36,7 +37,8 @@ if st.button("✨ Vibe Check ✨"):
                 time.sleep(1)
 
                 if data_file:
-                    filename = "output-" + date.today().strftime("%y%m%d") + ".txt"
+                    filename = "output_result-" + str_utility.extract_playlist_id(
+                        input_playlist_link) + "-" + date.today().strftime("%y%m%d") + ".txt"
                     write_message("Finished the vibe check 🪄 download the generated file to see the result 👀")
                     st.download_button(
                         label="📥 Check the result",
