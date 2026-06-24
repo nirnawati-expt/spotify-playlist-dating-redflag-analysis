@@ -12,8 +12,8 @@ focused part-time work to quickly demonstrate core technical proficiency in Pyth
 
 The MVP's main objective was to validate a solid, shippable data pipeline by:
 
-- **Data Acquisition**: Grabbing songs from a public Spotify playlist using customized data scraping techniques (network
-  traffic interception from Web UI).
+- **Data Acquisition**: Grabbing songs from a public Spotify playlist using customized data scraping techniques (listen & capture network
+  traffic behind the Web UI).
 - **GenAI Integration**: Leveraging the 3rd party API SDK to generate structured, nuanced text.
 - **Prompt Engineering**: Crafting the personality analysis by designing an optimal prompt and system instructions to
   achieve the desired content goal.
@@ -26,7 +26,7 @@ The MVP's main objective was to validate a solid, shippable data pipeline by:
 - **Generative AI**: This demonstrates direct SDK integration and my skills in prompt engineering, using System
   Instructions, parameter configurations and specific prompt to ensure the output is structured, relevant and reliable.
 - **Web Scraping (Selenium)**: This was a challenge! It showcases dynamic data acquisition by automating browser
-  interaction and actively intercepting network calls, not just scraping static pages, whic is more technically
+  interaction and actively listens & captures network calls, not just scraping static pages, which is more technically
   challenging approach.
 - **Python 3**: The entire data pipeline and application logic are built using modern Python 3.
 
@@ -40,7 +40,7 @@ intentionally decided against it.
 This project is a first-time exploration into data acquisition. I wanted to challenge myself (and showcase my skills) by
 using the Python Selenium library to perform dynamic scraping.
 
-That means I set up the code to actively listen to and intercept network calls as the playlist web page loads.
+That means I set up the code to actively listens & captures network calls as the playlist web page loads.
 
 It was a deliberate technical choice to demonstrate real-world skills in dynamic scraping and network traffic analysis
 in Python, proving I can handle more than just standard API consumption.
