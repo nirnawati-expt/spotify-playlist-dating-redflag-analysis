@@ -1,6 +1,0 @@
-# sample spotify link
-https://open.spotify.com/playlist/7wARwuyCiPRMURGmh6xTLq
-
-
-# sample command
- python -m noviirnawati.main https://open.spotify.com/playlist/7wARwuyCiPRMURGmh6xTLq

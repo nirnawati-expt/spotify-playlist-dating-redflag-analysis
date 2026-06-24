@@ -1,0 +1,14 @@
+# sample command (api key in env variable)
+    python -m vibecheck.main https://open.spotify.com/playlist/1nbP2qrJyi8N5NA6WNkwtd
+
+# sample command (api key in args)
+    python -m vibecheck.main https://open.spotify.com/playlist/1nbP2qrJyi8N5NA6WNkwtd <api_key>
+
+# sample command - after packaged it with pip (api key in env variable)
+    vibe-check https://open.spotify.com/playlist/1nbP2qrJyi8N5NA6WNkwtd
+
+# sample command - after packaged it with pip (api key in args)
+    vibe-check https://open.spotify.com/playlist/1nbP2qrJyi8N5NA6WNkwtd  <api_key>
+
+# sample command - running streamlit locally
+    python -m streamlit run app.py

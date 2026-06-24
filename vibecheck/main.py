@@ -4,13 +4,14 @@ import os
 
 from dotenv import load_dotenv, find_dotenv
 
+# load_dotenv must be run first to ensure other stuffs working
+load_dotenv(dotenv_path=find_dotenv('.env', usecwd=False))
+
 from vibecheck.config.base_configuration import IS_ENVIRONMENT_CLOUD
 from vibecheck.config.sdk_configuration import GOOGLE_GENAI_APIKEY
 from vibecheck.helper.validator import validate_url
 from vibecheck.helper.writer import write_output_locally
 from .helper import validator, str_utility
-
-load_dotenv(dotenv_path=find_dotenv('.env', usecwd=False))
 
 import sys
 from .web_scraper.web_api_scraper import scrape_spotify_playlist_page
@@ -26,12 +27,15 @@ os.environ['WDM_LOG_LEVEL'] = '0'  # Untuk webdriver-manager (jika pakai)
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  #
 
 
-def main(playlist_link: str, ai_model_apikey: str, callback_print=None):
+def vibe_check(playlist_link: str, ai_model_apikey: str, callback_print=None):
     def write_message(teks):
         if callback_print:  # from streamlit
+            print(teks)
             callback_print(teks)
         else:  # from local
             print(teks)
+
+    print(playlist_link)
 
     try:
         write_message("🎵 Fetching playlist data...")
@@ -46,6 +50,7 @@ def main(playlist_link: str, ai_model_apikey: str, callback_print=None):
         songs_collection = scrape_spotify_playlist_page(playlist_link)
 
         write_message("🎧 Analyzing the vibe..")
+
         ai_response = ai_analysis(songs_collection, playlist_link, ai_model_apikey)
 
         if IS_ENVIRONMENT_CLOUD:
@@ -62,9 +67,9 @@ def main(playlist_link: str, ai_model_apikey: str, callback_print=None):
         sys.exit(1)
 
 
-if __name__ == "__main__":
-    if len(sys.argv) < 3:
-        sys.exit(1)
+def main():
+    if len(sys.argv) < 2:
+        print("Args1: playlist link must be filled")
     else:
         playlist_link = sys.argv[1]
         ai_model_apikey = None
@@ -76,4 +81,8 @@ if __name__ == "__main__":
             ai_model_apikey = GOOGLE_GENAI_APIKEY;
             print("apikey from env variable")
 
-    main(playlist_link, ai_model_apikey)
+        vibe_check(playlist_link, ai_model_apikey, None)
+
+
+if __name__ == "__main__":
+    main()

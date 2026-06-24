@@ -62,10 +62,9 @@ def scrape_spotify_playlist_page(playlist_url: str):
         time.sleep(15)  # to ensure the page is fully loaded, esp when the internet connection is slow
         print("Finished loading the web page")
 
-        # Scroll until recommended track section show to ensure all URL is loaded
-        scroll_down_element_until_end(driver,
-                                      By.CLASS_NAME,
-                                      SPOTIFY_PLAYLIST_UI_END_SCROLL_ELEMENT)
+        # commented due to token optimization (to process less data) - Scroll until recommended track section show to ensure all URL is loaded
+        # scroll_down_element_until_end(driver, By.CLASS_NAME, SPOTIFY_PLAYLIST_UI_END_SCROLL_ELEMENT)
+
         print("Extracting playlists")
         playlist_id: str = str_utility.extract_playlist_id(playlist_url)
         # Filter data from API, this approach chosen because there are no identifier in UI
