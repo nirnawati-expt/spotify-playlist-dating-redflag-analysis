@@ -2,8 +2,7 @@
 import logging
 import os
 from datetime import date
-from turtle import st
-
+import streamlit as st
 from dotenv import load_dotenv, find_dotenv
 
 from vibecheck.config.base_configuration import IS_ENVIRONMENT_CLOUD
