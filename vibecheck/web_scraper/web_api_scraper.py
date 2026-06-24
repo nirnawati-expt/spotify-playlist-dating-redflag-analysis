@@ -5,10 +5,8 @@ from selenium import webdriver
 from selenium.common import ElementNotInteractableException
 from selenium.webdriver import Keys, ActionChains
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
 
 from .web_api_netlog_processor import process_network_logs
-from ..config.base_configuration import SPOTIFY_PLAYLIST_UI_END_SCROLL_ELEMENT
 from ..helper import str_utility
 
 

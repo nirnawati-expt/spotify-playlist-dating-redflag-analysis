@@ -66,6 +66,8 @@ Spotify Playlist ⟶ Data Scraping ⟶ Data Cleaning ⟶ AI Model ⟶ Analysis O
     * **Example:** If the playlist URL is `https://open.spotify.com/playlist/7wARwuyCiPRMURGmh6xTLq`, and the analysis
       is run on December 31, 2025, the output file will be named `output_result-7wARwuyCiPRMURGmh6xTLq-251231.md`.
 
+[see the sample result →](docs/sample-prompt-and-output-1/output_result-7wARwuyCiPRMURGmh6xTLq-250929.txt)
+
 -----
 
 ## **Requirements**
@@ -79,54 +81,92 @@ You'll need a few things to get started:
 
 -----
 
-## **How to Run**
+## 🚀 How to Run
 
-1. Navigate to the project directory in your terminal: `.../spotify-playlist-dating-redflag-analysis`.
+### 1. Initial Setup
 
-2. Ensure you have gathered all of the requirements on section `Requirements`
+Before running the application, navigate to the project directory and ensure all prerequisites listed in the *
+*Requirements** section are met.
 
-3. **Run the Application as a Python Module**
-
-If you have set the API key as an environment variable:
-
-```
-   python -m vibecheck.main <your_public_spotify_link>
+```bash
+# Navigate to the project directory
+cd path/to/spotify-playlist-dating-redflag-analysis
 ```
 
-If you want to pass your API key directly as an argument:
+### 2. Run the CLI Tool
 
-```
+You can execute the core CLI engine either directly as a Python Module or by installing it locally as a Pre-packaged
+Tool.
+
+#### Option A: Run as a Python Module
+
+Use this method to run the script immediately without installing the package:
+
+Passing the API Key Directly via Arguments:
+
+```bash
   python -m vibecheck.main <your_public_spotify_link> <your_google_cloud_ai_studio_api_key>
 ```
 
-4. **Run Locally as a Pre-packaged Tool**
-   Install the package in editable mode:
+Using Environment Variables (Ensure your API key is already set in your environment):
 
+```bash
+   python -m vibecheck.main <your_public_spotify_link>
 ```
+
+#### Option B: Run Locally as a Pre-packaged Tool (Recommended)
+
+Install the project in editable mode to register the custom terminal command:
+
+```bash
    pip install -e .
-  ```
-
-Once installed, run the tool using the following command:
-
 ```
+
+Once installed, you can invoke the `vibe-check` command from any directory in your terminal:
+
+Passing the API Key Directly via Arguments:
+
+```bash
   vibe-check <your_public_spotify_link> <your_google_cloud_ai_studio_api_key>
+```
+
+Using Environment Variables:
+
+```bash
+  vibe-check <your_public_spotify_link>
+```
+
+### 3. Run the Streamlit Web Application
+   To launch the interactive graphical user interface (GUI) wrapper in your web browser:
+
+```bash
+    streamlit run app.py
 ````
+
+💡 Tip: Ensure you have configured your local .streamlit/secrets.toml file before running this command so that your API keys are automatically injected into the web UI.
+
+[see the sample commands →](docs/sample-prompt-and-output-1/sample-command.txt)
+
+[see the sample secrets.toml →](docs/sample-prompt-and-output-1/sample-secrets.toml.txt)
 
 ## **Project Structure**
 
-* `.run/`: PyCharm run configuration files.
-* `docs/`: Additional documentation. You can find samples of prompt, configurations, system instruction, and output
-  files of this project.
-* `vibecheck/`: The main Python package.
-    * `constant/`: Modules holding constant classes and immutable variables.
-    * `helper/`: Modules that support the project's core logic.
-    * `model/`: Modules for data definition classes.
-    * `sdk/`: Modules for implementing the 3rd party SDK and its configurations.
-    * `web_scraper/`: Modules dedicated to dynamic data scraping.
-* `tests/`: A package for unit tests.
-    * ***Note:*** *Unit testing is planned for the future, after the Generative AI exploration is complete.*
-
------
+```text
+├── .streamlit/          # Streamlit configuration (local only, excluded from version control)
+├── docs/                # Additional documentation (samples of prompts, commands, env variables, and outputs)
+├── vibecheck/           # The core Python package (CLI Engine)
+│   ├── constant/        # Configuration classes and immutable variables
+│   ├── helper/          # Utility modules supporting the core business logic
+│   ├── model/           # Data definition models and schemas
+│   ├── sdk/             # 3rd-party SDK integrations and configurations
+│   ├── web_scraper/     # Modules dedicated to dynamic web scraping
+│   └── main.py          #  The central entry point for the CLI tool, responsible for parsing terminal arguments and executing the core application logic.
+├── tests/               # Unit testing suite (Planned for future release)
+├── app.py               # Streamlit Web Application entry point
+├── packages.txt         # Linux system-level dependencies for Cloud Deployment (e.g., Streamlit Cloud)
+├── pyproject.toml       # Build system configuration and package metadata
+└── requirements.txt     # Python package dependencies (pip)
+```
 
 ## **Configuration & Environment Variables**
 
@@ -134,37 +174,42 @@ This project relies on several environment variables for configuration. Here's a
 
 ```dotenv
 GOOGLE_CLOUD_API_KEY=string. optional, if using 1 args on cli this is mandatory. API key, get yours from https://aistudio.google.com/app/api-keys
-GOOGLE_GENAI_MODEL_TYPE=string. optional. gemini model id. if left empty, the default value is defined at noviirnawati/config/sdk_configuration.py 
+IS_ENVIRONMENT_CLOUD=bool. optional. default to false. set to true if you want to upload to cloud.
 
+GOOGLE_GENAI_MODEL_TYPE=string. optional. gemini model id. if left empty, the default value is defined at noviirnawati/config/sdk_configuration.py 
 GOOGLE_GENAI_SYSTEM_INSTRUCTION=string. optional. system instruction of ai model.
 GOOGLE_GENAI_BASE_PROMPT=string. optional. prompt for the ai model to generate content.
 GOOGLE_GENAI_TEMPERATURE=float. optional. learn from https://cloud.google.com/vertex-ai/generative-ai/docs/learn/prompts/adjust-parameter-values . if left empty, the default value is defined at noviirnawati/config/sdk_configuration.py 
 GOOGLE_GENAI_TOP_P=float. optional. learn from https://cloud.google.com/vertex-ai/generative-ai/docs/learn/prompts/adjust-parameter-values . if left empty, the default value is defined at noviirnawati/config/sdk_configuration.py 
 GOOGLE_GENAI_TOP_K=int. optional. learn from https://cloud.google.com/vertex-ai/generative-ai/docs/learn/prompts/adjust-parameter-values . if left empty, the default value is defined at noviirnawati/config/sdk_configuration.py 
 
-AI_ANALYSIS_SAVED_AS_MARKDOWN=bool. optional. true to save markdown of generated content into a markdown file locally. if left empty, the default value is False, defined at noviirnawati/config/base_configuration.py 
-OUTPUT_FILENAME_API_DETAILS=string. optional. file name of which web data scraping result. file will be save as output_[file_name]-[spotify_playlist_id]-[yymmdd].json
-OUTPUT_FILENAME_SONGS_DETAILS=string. optional. file name of which cleaned data result. file will be save as output_[file_name]-[spotify_playlist_id]-[yymmdd].json
+OUTPUT_FILENAME_API_DETAILS=string. optional. file name of which web data scraping result. file will be save as output_[file_name]-[spotify_playlist_id]-[yymmdd].json. fill it only for debugging in local environment
+OUTPUT_FILENAME_SONGS_DETAILS=string. optional. file name of which cleaned data result. file will be save as output_[file_name]-[spotify_playlist_id]-[yymmdd].json. fill it only for debugging in local environment
+
 SPOTIFY_PLAYLIST_UI_END_SCROLL_ELEMENT=string. optional. class of the element where the playlist end on the spotify web UI
 ```
 
-A sample populated with example data types:
+A [sample](docs/sample-prompt-and-output-1/sample-.env.txt) populated with example data types:
 
 ```dotenv
 GOOGLE_CLOUD_API_KEY=API key, get yours from https://aistudio.google.com/app/api-keys
-GOOGLE_GENAI_MODEL_TYPE=gemini-2.0-flash-001
+IS_ENVIRONMENT_CLOUD=FALSE
 
+GOOGLE_GENAI_MODEL_TYPE=gemini-2.0-flash-001
 GOOGLE_GENAI_SYSTEM_INSTRUCTION=You are a Relationship Pop Culture Analyst. Your primary function is to identify and objectively analyze potential behavioral or personality 'dating red flags' associated with a music listener, based solely on the lyrical themes, dominant mood, and artist personas present in the provided playlist data. Strict Output Rule: You MUST return your complete analysis with MARKDOWN format, with sections: Summary: A single paragraph high-level summary of the findings. Red Flags: Flag Category: e.g., Emotional Volatility, Commitment Avoidance, Materialism. Reasoning: A brief explanation of why this category was chosen, citing the lyrical themes or mood. Supporting Songs: Songs and artist to support the result
 GOOGLE_GENAI_BASE_PROMPT=Perform a dating red flag analysis on the following music playlist. The playlist data is provided as a semicolon-separated list in the format (Song Title - Artist). Use the themes and moods of the songs to infer potential personality concerns. Strictly follow the MARKDOWN format defined in your instructions.
 GOOGLE_GENAI_TEMPERATURE=0.7
 GOOGLE_GENAI_TOP_P=0.6
 GOOGLE_GENAI_TOP_K=30
 
-AI_ANALYSIS_SAVED_AS_MARKDOWN=True
 OUTPUT_FILENAME_API_DETAILS=api_details
 OUTPUT_FILENAME_SONGS_DETAILS=songs_details
+
 SPOTIFY_PLAYLIST_UI_END_SCROLL_ELEMENT=RD3ze5s5sQ4S4Tyb
 ```
+
+[see the sample .env →](docs/sample-prompt-and-output-1/sample-.env.toml.txt)
+
 
 -----
 
@@ -173,9 +218,6 @@ SPOTIFY_PLAYLIST_UI_END_SCROLL_ELEMENT=RD3ze5s5sQ4S4Tyb
 The immediate roadmap focuses on transitioning the tool into a robust command-line interface (CLI) application and
 expanding local data extraction capabilities using Selenium:
 
-* **CLI Application Transformation**: Refactoring the entire script into an interactive CLI tool. Users will be able to
-  pass playlist URLs and the AI model API key, and view the output directly in their terminal with clean text
-  formatting.
 * **Enhanced Local Data Cleaning & Processing**: enhancing the structured data cleaning and feature extraction locally
   before passing the payload to the GenAI model to keep tokens efficient.
 * **Probably Trying New AI Voices**: Looking into other GenAI providers (especially those with a great free tier!) to

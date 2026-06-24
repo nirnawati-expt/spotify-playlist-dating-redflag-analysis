@@ -31,7 +31,7 @@ def build_prompt(songs_collections: list[PlaylistItem]) -> str:
     return prompt
 
 
-def construct_markdown_filename(url: str) -> str:
+def construct_filename(url: str) -> str:
     return os.path.join("output_result-" + str_utility.extract_playlist_id(url))
 
 
