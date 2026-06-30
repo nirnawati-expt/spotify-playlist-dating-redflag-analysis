@@ -136,6 +136,15 @@ Using Environment Variables:
   vibe-check <your_public_spotify_link>
 ```
 
+
+#### Option C: Run Locally with Docker
+```bash
+docker compose run --build --rm vibecheck <your_public_spotify_link> <your_google_cloud_ai_studio_api_key_optional_if_not_set_in_.env>
+```
+
+#### Where the result file will be generated
+The file will be generated in the project root directory, alongside `requirements.txt`.
+
 ### 3. Run the Streamlit Web Application
    To launch the interactive graphical user interface (GUI) wrapper in your web browser:
 

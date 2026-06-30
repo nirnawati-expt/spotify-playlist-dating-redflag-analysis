@@ -1,0 +1,10 @@
+services:
+  vibecheck:
+    build: .
+    image: vibecheck:latest
+    volumes:
+      - .:/app
+    env_file:
+      - vibecheck/.env
+    stdin_open: true
+    tty: true

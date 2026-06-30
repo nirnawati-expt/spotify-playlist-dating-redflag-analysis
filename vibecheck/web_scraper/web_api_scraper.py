@@ -18,6 +18,9 @@ def get_chromedriver():
     options.set_capability('goog:loggingPrefs', {'performance': 'ALL'})
     options.add_argument('--disable-gpu')  # Mematikan akselerasi grafis yang sering memicu log devtools
     options.add_argument('--log-level=3')  # 3 = INFO, WARNING, dan ERROR disembunyikan
+    options.add_argument("--remote-debugging-pipe") 
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--no-sandbox")
     options.add_argument('--silent')
     options.add_argument(
         '--disable-features=OptimizationGuideModelDownloading,OptimizationHints')  # Minta Chrome untuk tidak memuat model ML internal jika memungkinkan

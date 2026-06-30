@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.git
+.env
+.venv
+venv/
+.idea
+.vscode
+.streamlit
+*.egg-info
+output*.txt
