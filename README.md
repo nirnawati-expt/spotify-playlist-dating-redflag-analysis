@@ -1,6 +1,10 @@
 # **Project: Spotify Playlist "Dating Red Flag" Analysis**
 
------
+What do your music playlists say about your dating life? This project is a short Python MVP that answers that question by transforming raw Spotify web traffic into a structured, entertaining "dating red flag" analysis using GenAI. A lightweight yet complete pipeline showcasing rapid deployment and practical prompt engineering.
+
+`For Fun` • `CLI App` • `Data Pipeline` • `Open Source` • `Web Scraping` • `Automation` • `Python` • `Selenium` • `Prompt Engineering` • `Gen AI Integration` • `Gemini API` • `Experimental` • `MVP` • `Streamlit`
+
+🚀 **[See the App Live on Streamlit](https://spotify-vibe-check.streamlit.app/)** | 📖 **[Read the Full Story on my Portfolio Hub](https://noviirna.github.io/projects/personal/web-scraping-gen-ai-integration)**
 
 ## **Summary: Integrating Data Scraping with Gen AI**
 
@@ -218,7 +222,8 @@ OUTPUT_FILENAME_SONGS_DETAILS=songs_details
 SPOTIFY_PLAYLIST_UI_END_SCROLL_ELEMENT=RD3ze5s5sQ4S4Tyb
 ```
 
-[see the sample .env →](docs/sample-prompt-and-output-1/sample-.env.toml.txt)
+[see the sample .env →](docs/sample-prompt-and-output-1/sample-.env.txt)
+[see the sample secrets.toml →](docs/sample-prompt-and-output-1/sample-secrets.toml.txt)
 
 
 -----
@@ -255,3 +260,9 @@ expanding local data extraction capabilities using Selenium:
 > If these data points are available to scrape from Spotify's Web UI, I'll definitely try to integrate them.
 > Otherwise, these ideas may become optional features should I decide to explore the Spotify API later on (which most
 > likely I'll do in a separate repository).*
+
+---
+
+## 🔗 Quick Links
+* 🚀 **[See the App Live on Streamlit](https://spotify-vibe-check.streamlit.app/)**
+* 📖 **[Read the Full Story & Challenges on my Portfolio Hub](https://noviirna.github.io/projects/personal/web-scraping-gen-ai-integration)**
